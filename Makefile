@@ -1,0 +1,2 @@
+start:
+		strawberry server app
