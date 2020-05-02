@@ -1,0 +1,2 @@
+mypy==0.770
+strawberry-graphql==0.24.1
