@@ -1,4 +1,4 @@
-from typing import List, Union, Iterator
+from typing import List, Union, Iterator, Optional
 
 import strawberry  # type: ignore
 
@@ -10,15 +10,15 @@ class User:
 
 
 @strawberry.type
-class TodoType:
+class Todo:
     name: str
     done: bool
 
 
-todos = [
-  TodoType(name="Todo #1", done=False),
-  TodoType(name="Todo #2", done=False),
-  TodoType(name="Todo #3", done=True)
+_todos = [
+  Todo(name="Todo #1", done=False),
+  Todo(name="Todo #2", done=False),
+  Todo(name="Todo #3", done=True)
 ]
 
 
@@ -29,8 +29,7 @@ class Query:
         return [User(name="Patrick", age=100)]
 
     @strawberry.field
-    def todos(self, info, done: bool = None) -> Union[List[TodoType], Iterator[TodoType]]:
-        if done is not None:
-            return filter(lambda todo: todo.done == done, todos)
-        else:
-            return todos
+    def todos(self, info, done: bool = None) -> List[Todo]:
+        if done is None:
+            return _todos
+        return list(filter(lambda todo: todo.done == done, _todos))
